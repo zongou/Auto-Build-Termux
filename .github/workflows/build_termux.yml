@@ -12,16 +12,7 @@ jobs:
       run: git clone https://github.com/termux/termux-app
     - name: Modify
       run: |
-        ###
-        cd termux-app
-        rep(){ sed -i "s/$1/$2/g" $3 ;}
-        # build arm64-v8a only
-        rep "abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'" "abiFilters 'arm64-v8a'" app/build.gradle
-        # chage extra key layout
-        rep "ESC, TAB, CTRL, ALT, {key: '-', popup: '|'}, DOWN, UP" "{key: '~',popup: '\\\`'}, {key: '\\\\\\\\\\/', popup: '?'}, {key: ':', popup: ';'}, {key: '!', popup: {macro: 'ESC :!', display: '!cmd'}}, {key: '-', popup: '_'}, {key: '=', popup: '+'}, {key: 'UP', popup: 'PGUP'}, {key: 'KEYBOARD', popup: {macro: 'exit ENTER', display: 'exit'}}],[{key: 'ESC', popup: {macro: 'ESC :q ENTER', display: 'quit'}}, {key: 'TAB', popup: {macro: 'ESC :w ENTER', display: 'save'}}, {key: 'CTRL', popup: {macro: 'ESC F5 ENTER', display: 'RUN'}}, {key: 'ALT', popup: '*'}, {key: 'BACKSLASH', popup: '|'}, {key: 'LEFT', popup: 'HOME'}, {key: 'DOWN', popup: 'PGDN'}, {key: 'RIGHT', popup: 'END'}" app/src/main/java/com/termux/app/TermuxPreferences.java
-        # use lessKnownCharacterDisplay and arrowTriangleVariationDisplay
-        sed -i '166 i putAll(lessKnownCharactersDisplay);' app/src/main/java/com/termux/app/ExtraKeysInfos.java
-        sed -i '166 i putAll(arrowTriangleVariationDisplay);' app/src/main/java/com/termux/app/ExtraKeysInfos.java
+        
     - name: Build
       run: |
         cd termux-app
