@@ -29,8 +29,8 @@ jobs:
 #       run: |
 #         cd termux-app
 #         ./gradlew assembleDebug
-    - name: Install reanme
-      run: sudo apt install rename
+#     - name: Install reanme
+#       run: sudo apt install rename
     - name: Create files
       run: |
         echo $(pwd)
