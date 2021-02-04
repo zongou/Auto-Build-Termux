@@ -12,10 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Clone repository
-      run: |
-        git clone https://github.com/termux/termux-app
-        remote_version=$(cat termux-app/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
-        echo ${remote_version}
+      run: git clone https://github.com/termux/termux-app
     - name: Modify VERSION:${remote_version}
       run: |
         ###
@@ -51,8 +48,9 @@ jobs:
 #         rename s/app/termux-app/ *.apk
 #         rename s/-debug/_${remote_version}/ *.apk
 #         echo $(ls)
-    - name: Rename files2
+    - name: Rename files
       run: |
+        remote_version=$(cat termux-app/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         cd termux-app/app/build/outputs/apk/debug
         for var in $(ls)
         do
