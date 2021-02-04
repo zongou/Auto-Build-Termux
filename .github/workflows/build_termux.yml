@@ -33,7 +33,8 @@ jobs:
       run: sudo apt install rename
     - name: Create files
       run: |
-        pwd
+        echo $(pwd)
+        echo $(ls)
         cd ~/termux-app/app/build/outputs/apk/debug
         touch app-arm64-v8a-debug.apk  app-armeabi-v7a-debug.apk  app-x86-debug.apk  app-x86_64-debug.apk
     - name: Rename files
