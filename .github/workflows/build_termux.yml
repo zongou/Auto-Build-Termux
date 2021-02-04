@@ -44,8 +44,8 @@ jobs:
       with:
         name: termux-app
         path: ./termux-app/app/build/outputs/apk/debug
-    - name: Upload Apk to WeTransfer
-      run: |
-        cd termux-app
-         curl -sL https://git.io/file-transfer | sh
-        ./transfer wet ./app/build/outputs/apk/debug/*.apk
+#     - name: Upload Apk to WeTransfer
+#       run: |
+#         cd termux-app
+#          curl -sL https://git.io/file-transfer | sh
+#         ./transfer wet ./app/build/outputs/apk/debug/*.apk
