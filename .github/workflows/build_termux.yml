@@ -33,6 +33,11 @@ jobs:
       run: |
         cd termux-app/app/build/outputs/apk/debug/
         ls
+    - name: Store generated APK file
+      uses: actions/upload-artifact@v2
+      with:
+        name: termux-app
+        path: ./termux-app/app/build/outputs/apk/debug
     - name: Upload Apk to WeTransfer
       run: |
         cd termux-app
