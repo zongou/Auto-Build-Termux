@@ -51,11 +51,12 @@ jobs:
     - name: Rename files2
       run: |
         remote_version=$(cat termux-app/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
+        echo ${remote_version}
         cd termux-app/app/build/outputs/apk/debug
         for var in $(ls)
         do
           if [ ${var##*.} == "apk" ];then
-             mv -f "$var" $(echo "$var"|sed 's/app/termux/' |sed 's/-debug/_${remote_version}/')
+             mv -f "$var" $(echo "$var"|sed 's/app/termux/' |sed s/-debug/_${remote_version}/)
           fi
         done
         echo $(ls)
