@@ -32,7 +32,7 @@ jobs:
     - name: Rename files
       run: |
         cd termux-app
-        apt install rename
+        sudo apt install rename
         # get version
         remote_version=$(cat app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         # rename files
