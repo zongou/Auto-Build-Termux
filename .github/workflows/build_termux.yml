@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Clone repository
       run: git clone https://github.com/termux/termux-app
-    - name: Modify VERSION:${remote_version}
+    - name: Modify
       run: |
         ###
         cd termux-app
@@ -25,29 +25,12 @@ jobs:
         # use lessKnownCharacterDisplay and arrowTriangleVariationDisplay
         sed -i '166 i putAll(lessKnownCharactersDisplay);' app/src/main/java/com/termux/app/ExtraKeysInfos.java
         sed -i '166 i putAll(arrowTriangleVariationDisplay);' app/src/main/java/com/termux/app/ExtraKeysInfos.java
-#     - name: Build
-#       run: |
-#         cd termux-app
-#         ./gradlew assembleDebug
-#     - name: Install reanme
-#       run: sudo apt install rename
-    - name: Create files
+    - name: Build
       run: |
-        echo $(pwd)
-        echo $(ls)
-        mkdir -p termux-app/app/build/outputs/apk/debug
-        cd termux-app/app/build/outputs/apk/debug
-        touch app-arm64-v8a-debug.apk  app-armeabi-v7a-debug.apk  app-x86-debug.apk  app-x86_64-debug.apk
-#     - name: Rename files
-#       run: |
-#         cd termux-app
-#         # get version
-#         remote_version=$(cat app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
-#         # rename files
-#         cd app/build/outputs/apk/debug
-#         rename s/app/termux-app/ *.apk
-#         rename s/-debug/_${remote_version}/ *.apk
-#         echo $(ls)
+        cd termux-app
+        ./gradlew assembleDebug
+    - name: Install reanme
+      run: sudo apt install rename
     - name: Rename files
       run: |
         remote_version=$(cat termux-app/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
@@ -55,17 +38,16 @@ jobs:
         for var in $(ls)
         do
           if [ ${var##*.} == "apk" ];then
-             mv -f "$var" $(echo "$var"|sed 's/app/termux/' |sed "s/-debug/_${remote_version}/")
+             mv -f "$var" $(echo "$var"|sed 's/app/termux/' |sed 's/-debug/'_${remote_version}/)
           fi
         done
-        echo $(ls)
-#     - name: Store generated APK file
-#       uses: actions/upload-artifact@v2
-#       with:
-#         name: termux-app
-#         path: ./termux-app/app/build/outputs/apk/debug
-#     - name: Upload Apk to WeTransfer
-#       run: |
-#         cd termux-app
-#          curl -sL https://git.io/file-transfer | sh
-#         ./transfer wet ./app/build/outputs/apk/debug/*.apk
+    - name: Store generated APK file
+      uses: actions/upload-artifact@v2
+      with:
+        name: termux-app
+        path: ./termux-app/app/build/outputs/apk/debug
+    - name: Upload Apk to WeTransfer
+      run: |
+        cd termux-app
+         curl -sL https://git.io/file-transfer | sh
+        ./transfer wet ./app/build/outputs/apk/debug/*.apk
