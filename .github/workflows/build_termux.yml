@@ -44,9 +44,4 @@ jobs:
         remote_version=$(cat app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         cp ./app/build/outputs/apk/debug/app-debug.apk ./Termux_app_${remote_version}.apk
          curl -sL https://git.io/file-transfer | sh
-        ./transfer wet ./*.apk
-    - name: Store generated APK file
-      uses: actions/upload-artifact@v1
-      with:
-        name: termux-app
-        path: ./termux-app/app/build/outputs/apk/debug/app-debug.apk
+        ./transfer wet ./app/build/outputs/apk/debug/*.apk
