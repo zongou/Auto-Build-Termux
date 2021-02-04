@@ -54,9 +54,8 @@ jobs:
         cd termux-app/app/build/outputs/apk/debug
         for var in $(ls)
         do
-          echo $var
           if [ ${var##*.} == "apk" ];then
-             mv -f "$var" $(echo "$var"|sed 's/app/termux/')
+             mv -f "$var" $(echo "$var"|sed 's/app/termux/' |sed 's/-debug/_${remote_version}/')
           fi
         done
         echo $(ls)
