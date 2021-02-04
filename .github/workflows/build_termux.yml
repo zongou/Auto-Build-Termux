@@ -29,10 +29,11 @@ jobs:
       run: |
         cd termux-app
         ./gradlew assembleDebug
+    - name: Install reanme
+      run: sudo apt install rename
     - name: Rename files
       run: |
         cd termux-app
-        sudo apt install rename
         # get version
         remote_version=$(cat app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         # rename files
