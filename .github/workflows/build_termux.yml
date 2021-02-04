@@ -29,10 +29,14 @@ jobs:
       run: |
         cd termux-app
         ./gradlew assembleDebug
-    - name: List Files
+    - name: Rename files
       run: |
-        cd termux-app/app/build/outputs/apk/debug/
-        ls
+        cd termux-app
+        # get version
+        remote_version=$(cat app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
+        # rename files
+        rename s/app/termux-app/ *.apk
+        rename s/-debug/_${remote_version} *.apk
     - name: Store generated APK file
       uses: actions/upload-artifact@v2
       with:
@@ -41,7 +45,5 @@ jobs:
     - name: Upload Apk to WeTransfer
       run: |
         cd termux-app
-        remote_version=$(cat app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
-        # cp ./app/build/outputs/apk/debug/app-debug.apk ./Termux_app_${remote_version}.apk
          curl -sL https://git.io/file-transfer | sh
         ./transfer wet ./app/build/outputs/apk/debug/*.apk
