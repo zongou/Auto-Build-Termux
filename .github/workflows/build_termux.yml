@@ -47,6 +47,7 @@ jobs:
         # rename files
         rename s/app/termux-app/ *.apk
         rename s/-debug/_${remote_version}/ *.apk
+        echo $(ls)
 #     - name: Store generated APK file
 #       uses: actions/upload-artifact@v2
 #       with:
