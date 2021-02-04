@@ -48,6 +48,16 @@ jobs:
         rename s/app/termux-app/ *.apk
         rename s/-debug/_${remote_version}/ *.apk
         echo $(ls)
+      - name: Rename files2
+      run: |
+        cd termux-app
+        for var in $(ls)
+        do
+    echo $var
+    if [ ${var##*.} == "apk" ];then
+       mv -f "$var" $(echo "$var"|sed 's/app/termux/')
+    fi
+done
 #     - name: Store generated APK file
 #       uses: actions/upload-artifact@v2
 #       with:
