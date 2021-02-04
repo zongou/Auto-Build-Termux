@@ -40,11 +40,11 @@ jobs:
         touch app-arm64-v8a-debug.apk  app-armeabi-v7a-debug.apk  app-x86-debug.apk  app-x86_64-debug.apk
     - name: Rename files
       run: |
-        cd termux-app/app/build/outputs/apk/debug
-        ls
+        cd termux-app
         # get version
         remote_version=$(cat app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         # rename files
+        cd app/build/outputs/apk/debug
         rename s/app/termux-app/ *.apk
         rename s/-debug/_${remote_version}/ *.apk
         echo $(ls)
