@@ -38,7 +38,7 @@ jobs:
         remote_version=$(cat app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         # rename files
         rename s/app/termux-app/ *.apk
-        rename s/-debug/_${remote_version} *.apk
+        rename s/-debug/_${remote_version}/ *.apk
     - name: Store generated APK file
       uses: actions/upload-artifact@v2
       with:
