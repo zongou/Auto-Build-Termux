@@ -3,6 +3,12 @@ on:
    workflow_dispatch:
    repository_dispatch:
     types: start auto build Api
+<<<<<<< HEAD
+=======
+#    push:
+#     branches:
+#        - master
+>>>>>>> 8b4f4327d5ad7fde61d2f956b124f668232ffd0c
 jobs:
   build:
     runs-on: ubuntu-latest
