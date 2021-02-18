@@ -3,9 +3,9 @@ on:
    workflow_dispatch:
    repository_dispatch:
     types: start auto build Api
-   push:
-    branches:
-       - master
+#    push:
+#     branches:
+#        - master
 jobs:
   build:
     runs-on: ubuntu-latest
