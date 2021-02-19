@@ -32,6 +32,7 @@ jobs:
     - name: Rename files
       run: |
         remote_version=$(cat termux-app/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
+        echo "lastest version: $remote_version"
         cd termux-app/app/build/outputs/apk/debug
         for var in $(ls)
         do
