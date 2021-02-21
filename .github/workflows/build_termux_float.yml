@@ -9,20 +9,28 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Clone repository
-      run: git clone https://github.com/termux/termux-float termux_float
-    - name: Check version
-      run: |
-        remote_version=$(cat termux_float/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
-        echo "latest version: $remote_version"
+      run: git clone https://github.com/termux/termux-float termux-float
     - name: Build
       run: |
         printf "start compiling...\n"
-        cd termux_float
+        cd termux-float
         ./gradlew assembleDebug
-        cp app/build/outputs/apk/debug/app-debug.apk ../Termux_float_${remote_version}.apk
+        cp app/build/outputs/apk/debug/app-debug.apk ../termux-float_${remote_version}.apk
         echo "compiling finished"
+    - name: Rename files
+      run: |
+        remote_version=$(cat termux-float/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
+        echo "lastest version: $remote_version"
+        cd termux-float/app/build/outputs/apk/debug
+        for var in $(ls)
+        do
+          if [ ${var##*.} == "apk" ];then
+             mv -f "$var" $(echo "$var"|sed 's/app/termux/' |sed 's/-debug/'_${remote_version}/)
+          fi
+        done
     - name: Store generated APK file
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
         name: termux-float
-        path: ./termux_float/app/build/outputs/apk/debug/app-debug.apk
+        path: ./termux-float/app/build/outputs/apk/debug
+
