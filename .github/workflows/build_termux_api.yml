@@ -9,20 +9,27 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: clone resource
-      run: git clone https://github.com/termux/termux-api termux_api
-    - name: Check version
+      run: git clone https://github.com/termux/termux-api
+    - name: Rename files
       run: |
-        remote_version=$(cat termux_api/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
+        remote_version=$(cat termux-float/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         echo "lastest version: $remote_version"
+        cd termux-api/app/build/outputs/apk/debug
+        for var in $(ls)
+        do
+          if [ ${var##*.} == "apk" ];then
+             mv -f "$var" $(echo "$var"|sed 's/app/termux/' |sed 's/-debug/'_${remote_version}/)
+          fi
+        done
     - name: Build
       run: |
         printf "start compiling...\n"
-        cd termux_api
+        cd termux-api
         ./gradlew assembleDebug
-        cp app/build/outputs/apk/debug/app-debug.apk ../Termux_api_${remote_version}.apk
+        cp app/build/outputs/apk/debug/app-debug.apk ../termux-api_${remote_version}.apk
         echo "compiling finished"
     - name: Store generated APK file
       uses: actions/upload-artifact@v1
       with:
         name: termux-api
-        path: ./termux_api/app/build/outputs/apk/debug/app-debug.apk
+        path: ./termux-api/app/build/outputs/apk/debug/app-debug.apk
