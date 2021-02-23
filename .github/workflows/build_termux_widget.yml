@@ -20,7 +20,7 @@ jobs:
       run: |
         remote_version=$(cat termux-widget/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         echo "lastest version: $remote_version"
-        cd termux-app/app/build/outputs/apk/debug
+        cd termux-widget/app/build/outputs/apk/debug
         for var in $(ls)
         do
           if [ ${var##*.} == "apk" ];then
