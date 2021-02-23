@@ -24,7 +24,7 @@ jobs:
         for var in $(ls)
         do
           if [ ${var##*.} == "apk" ];then
-             mv -f "$var" $(echo "${var}-api_"|sed 's/app/termux/' |sed 's/-debug/'_${remote_version}/)
+             mv -f "$var" $(echo "${var}-float_"|sed 's/app/termux/' |sed 's/-debug/'_${remote_version}/)
           fi
         done
     - name: Store generated APK file
