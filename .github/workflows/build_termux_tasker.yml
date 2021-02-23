@@ -9,20 +9,26 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Clone repository
-      run: git clone https://github.com/termux/termux-tasker termux_tasker
-    - name: Check version
-      run: |
-        remote_version=$(cat termux_tasker/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
-        echo "latest version: $remote_version"
+      run: git clone https://github.com/termux/termux-tasker termux-tasker
     - name: Build
       run: |
         printf "start compiling...\n"
-        cd termux_tasker
+        cd termux-tasker
         ./gradlew assembleDebug
-        cp app/build/outputs/apk/debug/app-debug.apk ../Termux_tasker_${remote_version}.apk
         echo "compiling finished"
+    - name: Rename files
+      run: |
+        remote_version=$(cat termux-tasker/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
+        echo "lastest version: $remote_version"
+        cd termux-app/app/build/outputs/apk/debug
+        for var in $(ls)
+        do
+          if [ ${var##*.} == "apk" ];then
+             mv -f "$var" $(echo "$var"|sed 's/app/termux-tasker/' |sed 's/-debug/'_${remote_version}/)
+          fi
+        done
     - name: Store generated APK file
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
         name: termux-tasker
-        path: ./termux_tasker/app/build/outputs/apk/debug/app-debug.apk
+        path: ./termux-tasker/app/build/outputs/apk/debug
