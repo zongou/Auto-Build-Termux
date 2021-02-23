@@ -18,7 +18,7 @@ jobs:
         echo "compiling finished"
     - name: Rename files
       run: |
-        remote_version=$(cat termux-float/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
+        remote_version=$(cat termux-api/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         echo "lastest version: $remote_version"
         cd termux-api/app/build/outputs/apk/debug
         for var in $(ls)
