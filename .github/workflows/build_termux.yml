@@ -32,7 +32,7 @@ jobs:
         sed -i '163 i putAll(arrowTriangleVariationDisplay);' app/src/main/java/com/termux/app/terminal/io/extrakeys/ExtraKeysInfo.java
         
         # remove settingsButtonView
-        sed -e "/setSettingsButtonView();/d" app/src/main/java/com/termux/app/TermuxActivity.java
+        sed -i "/setSettingsButtonView();/d" app/src/main/java/com/termux/app/TermuxActivity.java
         
     - name: Build
       run: |
@@ -50,14 +50,9 @@ jobs:
           fi
         done
         
-        cd ../
-
         for var in universal arm64-v8a armeabi-v7a x86_64 x86
-          do mkdir -p debug_with_version/$var
-        done
-
-        for var in universal arm64-v8a armeabi-v7a x86_64 x86
-          do mv debug/*$var* debug_with_version/$var
+          do mkdir -p $var
+          do mv *$var* $var
         done
 
 #     - name: Store generated APK file
@@ -66,45 +61,44 @@ jobs:
 #         name: termux-app
 #         path: ./termux-app/app/build/outputs/apk/debug
 # #         path: ./termux-app/termux-shared/src/main/java/com/termux/shared/settings/properties/TermuxPropertyConstants.java     # debug
-#
 
     - name: Store generated universal APK file
       uses: actions/upload-artifact@v2
       with:
         name: termux-app-universal
         path: |
-            ./termux-app/app/build/outputs/apk/debug_with_version/universal
+            ./termux-app/app/build/outputs/apk/debug/universal
             ./termux-app/app/build/outputs/apk/debug/output-metadata.json
     - name: Store generated arm64-v8a APK file
       uses: actions/upload-artifact@v2
       with:
         name: termux-app-arm64-v8a
         path: |
-          ./termux-app/app/build/outputs/apk/debug_with_version/arm64-v8a
+          ./termux-app/app/build/outputs/apk/debug/arm64-v8a
           ./termux-app/app/build/outputs/apk/debug/output-metadata.json
     - name: Store generated armeabi-v7a APK file
       uses: actions/upload-artifact@v2
       with:
         name: termux-app-armeabi-v7a
         path: |
-          ./termux-app/app/build/outputs/apk/debug_with_version/armeabi-v7a
+          ./termux-app/app/build/outputs/apk/debug/armeabi-v7a
           ./termux-app/app/build/outputs/apk/debug/output-metadata.json
     - name: Store generated x86_64 APK file
       uses: actions/upload-artifact@v2
       with:
         name: termux-app-x86_64
         path: |
-          ./termux-app/app/build/outputs/apk/debug_with_version/x86_64
+          ./termux-app/app/build/outputs/apk/debug/x86_64
           ./termux-app/app/build/outputs/apk/debug/output-metadata.json
     - name: Store generated x86 APK file
       uses: actions/upload-artifact@v2
       with:
         name: termux-app-x86
         path: |
-          ./termux-app/app/build/outputs/apk/debug_with_version/x86
+          ./termux-app/app/build/outputs/apk/debug/x86
           ./termux-app/app/build/outputs/apk/debug/output-metadata.json
 #     - name: Upload Apk to WeTransfer
 #       run: |
 #         cd termux-app
 #          curl -sL https://git.io/file-transfer | sh
-#         ./transfer wet ./app/build/outputs/apk/debug_with_version/*.apk
+#         ./transfer wet ./app/build/outputs/apk/debug/*.apk
