@@ -43,7 +43,7 @@ jobs:
         remote_version=$(cat termux-app/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         echo "lastest version: $remote_version"
         cd termux-app/app/build/outputs/apk
-        cp debug debug_with_version
+        cp -r debug debug_with_version
         cd debug_with_version
         for var in $(ls)
         do
