@@ -33,11 +33,12 @@ jobs:
         
         # remove settingsButtonView
         sed -i "/setSettingsButtonView();/d" app/src/main/java/com/termux/app/TermuxActivity.java
-        
+
     - name: Build
       run: |
         cd termux-app
         ./gradlew assembleDebug
+
     - name: Copy and rename files
       run: |
         remote_version=$(cat termux-app/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
