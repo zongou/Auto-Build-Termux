@@ -51,7 +51,7 @@ jobs:
         done
         
         for var in universal arm64-v8a armeabi-v7a x86_64 x86
-          do mkdir -p $var && mv *$var* $var
+          do mkdir -p $var && mv *$var*.apk $var
         done
 
 #     - name: Store generated APK file
