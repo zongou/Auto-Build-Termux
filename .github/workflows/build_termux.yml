@@ -42,21 +42,32 @@ jobs:
       run: |
         remote_version=$(cat termux-app/app/build.gradle |grep "versionName \"" |awk -F "\"" '{print $2}')
         echo "lastest version: $remote_version"
-        cd termux-app/app/build/outputs/apk
-        cp -r debug debug_with_version
-        cd debug_with_version
+        cd termux-app/app/build/outputs/apk/debug
         for var in $(ls)
         do
           if [ ${var##*.} == "apk" ];then
              mv -f "$var" $(echo "$var"|sed 's/app/termux-app/' |sed 's/-debug/'_${remote_version}/)
           fi
         done
-    - name: Store generated APK file
-      uses: actions/upload-artifact@v2
-      with:
-        name: termux-app
-        path: ./termux-app/app/build/outputs/apk/debug
-#         path: ./termux-app/termux-shared/src/main/java/com/termux/shared/settings/properties/TermuxPropertyConstants.java     # debug
+        
+        cd ../
+
+        for var in universal arm64-v8a armeabi-v7a x86_64 x86
+          do mkdir -p debug_with_version/$var
+        done
+
+        for var in universal arm64-v8a armeabi-v7a x86_64 x86
+          do mv debug/*$var* debug_with_version/$var
+        done
+
+#     - name: Store generated APK file
+#       uses: actions/upload-artifact@v2
+#       with:
+#         name: termux-app
+#         path: ./termux-app/app/build/outputs/apk/debug
+# #         path: ./termux-app/termux-shared/src/main/java/com/termux/shared/settings/properties/TermuxPropertyConstants.java     # debug
+#
+
     - name: Store generated universal APK file
       uses: actions/upload-artifact@v2
       with:
