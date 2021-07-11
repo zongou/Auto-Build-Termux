@@ -33,6 +33,7 @@ jobs:
         
         # remove settingsButtonView
         sed -i "/setSettingsButtonView();/d" app/src/main/java/com/termux/app/TermuxActivity.java
+        sed -i "45,56d" app/src/main/res/layout/activity_termux.xml
 
     - name: Build
       run: |
