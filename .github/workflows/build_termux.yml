@@ -32,8 +32,8 @@ jobs:
         sed -i '163 i putAll(arrowTriangleVariationDisplay);' app/src/main/java/com/termux/app/terminal/io/extrakeys/ExtraKeysInfo.java
         
         # remove settingsButtonView
-        sed -i "/setSettingsButtonView();/d" app/src/main/java/com/termux/app/TermuxActivity.java
-        sed -i "55aandroid:visibility=\"gone\"" app/src/main/res/layout/activity_termux.xml
+        sed -i "507asettingsButton.setVisibility(View.GONE);" app/src/main/java/com/termux/app/TermuxActivity.java
+
 
     - name: Build
       run: |
